@@ -35,4 +35,11 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 10.f;
+
+
+	UPROPERTY(VisibleAnywhere)
+	class AGun* SpawnedGun;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AGun> GunClass;
 };
