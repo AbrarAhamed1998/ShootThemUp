@@ -23,6 +23,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void PullTrigger();
 
 private:
 
@@ -31,4 +32,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class USkeletalMeshComponent* MeshComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UParticleSystem* MuzzleFlash;
 };

@@ -32,6 +32,7 @@ private:
 	void JumpCharacter();
 	void LookUpRate(float axisValue);
 	void LookRightRate(float axisValue);
+	void Shoot();
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 10.f;
@@ -42,4 +43,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGun> GunClass;
+
+
 };
