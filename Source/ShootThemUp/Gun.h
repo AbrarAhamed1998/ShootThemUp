@@ -42,4 +42,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	int MaxRange = 1000;
 
+	UPROPERTY(EditDefaultsOnly)
+	float BulletDamage = 10;
+
 };
