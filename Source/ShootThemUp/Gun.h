@@ -35,4 +35,11 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	class UParticleSystem* MuzzleFlash;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UParticleSystem* ImpactHitVFX;
+
+	UPROPERTY(EditDefaultsOnly)
+	int MaxRange = 1000;
+
 };
