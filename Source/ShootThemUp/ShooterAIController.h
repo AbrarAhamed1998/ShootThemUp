@@ -19,6 +19,11 @@ public:
 protected:
 	virtual void BeginPlay() override;
 private:
-	UPROPERTY(VisibleAnywhere)
-	APawn* PlayerPawn;
+	UPROPERTY(EditDefaultsOnly)
+	class UBehaviorTree* AIBehavior;
+
+	UPROPERTY(EditAnywhere)
+	AActor* PatrolPointA;
+	UPROPERTY(EditAnywhere)
+	AActor* PatrolPointB;
 };
