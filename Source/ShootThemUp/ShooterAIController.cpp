@@ -27,17 +27,17 @@ void AShooterAIController::Tick(float DeltaSeconds)
 
 	//MoveToActor(PlayerPawn, 300, false, true);
 
-	if (LineOfSightTo(PlayerPawn))
-	{
-		// Setting current player location
-		GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
-		//SetFocus(PlayerPawn);
-		
-		// Setting last known location
-		GetBlackboardComponent()->SetValueAsVector(TEXT("LastKnownLocation"), PlayerPawn->GetActorLocation());
-	}
-	else
-	{
-		GetBlackboardComponent()->ClearValue(TEXT("PlayerLocation"));
-	}
+	//if (LineOfSightTo(PlayerPawn))
+	//{
+	//	// Setting current player location
+	//	GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
+	//	//SetFocus(PlayerPawn);
+	//	
+	//	// Setting last known location
+	//	GetBlackboardComponent()->SetValueAsVector(TEXT("LastKnownLocation"), PlayerPawn->GetActorLocation());
+	//}
+	//else
+	//{
+	//	GetBlackboardComponent()->ClearValue(TEXT("PlayerLocation"));
+	//}
 }

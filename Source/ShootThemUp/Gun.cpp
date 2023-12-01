@@ -53,8 +53,11 @@ void AGun::PullTrigger()
 	FVector EndPoint = CamLocation + CamRotation.Vector() * MaxRange;
 
 	FHitResult hitResult;
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+	params.AddIgnoredActor(GetOwner());
 
-	bool bHasHitObjectInChannel = GetWorld()->LineTraceSingleByChannel(hitResult,CamLocation, EndPoint, ECollisionChannel::ECC_GameTraceChannel1);
+	bool bHasHitObjectInChannel = GetWorld()->LineTraceSingleByChannel(hitResult,CamLocation, EndPoint, ECollisionChannel::ECC_GameTraceChannel1, params);
 
 	if (bHasHitObjectInChannel)
 	{

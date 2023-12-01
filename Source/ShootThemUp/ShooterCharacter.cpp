@@ -3,6 +3,8 @@
 
 #include "ShooterCharacter.h"
 #include "Gun.h"
+#include "Components/CapsuleComponent.h"
+#include "ShootThemUpGameModeBase.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -52,10 +54,23 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
+	if (IsDead()) return 0;
 	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	DamageApplied = FMath::Min(CurrentHealth, DamageApplied);
 	CurrentHealth -= DamageApplied;
-	UE_LOG(LogTemp, Warning, TEXT("CurrentHealth : %f"), CurrentHealth);
+	//UE_LOG(LogTemp, Warning, TEXT("CurrentHealth : %f"), CurrentHealth);
+
+	if (IsDead())
+	{
+		AShootThemUpGameModeBase* GameMode = GetWorld()->GetAuthGameMode<AShootThemUpGameModeBase>();
+		if (GameMode != nullptr)
+		{
+			GameMode->OnPawnKilled(this);
+		}
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+
 	return DamageApplied;
 }
 
