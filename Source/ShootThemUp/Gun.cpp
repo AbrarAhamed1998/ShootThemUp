@@ -37,37 +37,58 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::PullTrigger()
 {
+	SetMuzzleFlash();
+
+	FHitResult hitResult;
+	AController* OwnerController = nullptr;
+	bool bHasHitObjectInChannel = CheckIfHitObjectInChannel(hitResult);
+
+	HandleHit(bHasHitObjectInChannel, hitResult);
+}
+
+void AGun::SetMuzzleFlash()
+{
+	if (MuzzleFlash == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("MuzzleFlash VFX not assiggned"));
+		return;
+	}
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, MeshComponent, TEXT("MuzzleFlashSocket"));
+}
 
-	APawn* GunOwner = Cast<APawn>(GetOwner());
-	if (GunOwner == nullptr) return;
-
-	AController* OwnerController = GunOwner->GetController();
-	if (OwnerController == nullptr) return;
+bool AGun::CheckIfHitObjectInChannel(FHitResult& hitResult)
+{
+	AController* OwnerController = GetOwnerController();
+	if (OwnerController == nullptr) return false;
 
 	FVector CamLocation;
 	FRotator CamRotation;
 
-	OwnerController->GetPlayerViewPoint(CamLocation, CamRotation);
+	(OwnerController)->GetPlayerViewPoint(CamLocation, CamRotation);
 
 	FVector EndPoint = CamLocation + CamRotation.Vector() * MaxRange;
 
-	FHitResult hitResult;
 	FCollisionQueryParams params;
 	params.AddIgnoredActor(this);
 	params.AddIgnoredActor(GetOwner());
 
-	bool bHasHitObjectInChannel = GetWorld()->LineTraceSingleByChannel(hitResult,CamLocation, EndPoint, ECollisionChannel::ECC_GameTraceChannel1, params);
+	return GetWorld()->LineTraceSingleByChannel(hitResult, CamLocation, EndPoint, ECollisionChannel::ECC_GameTraceChannel1, params);
+}
 
-	if (bHasHitObjectInChannel)
-	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactHitVFX, hitResult.Location, hitResult.ImpactNormal.Rotation());
-		AActor* shotActor = hitResult.GetActor();
-		if (shotActor == nullptr) return;
-		FPointDamageEvent DamageActorEvent(BulletDamage,hitResult, hitResult.ImpactNormal, nullptr);;
-		shotActor->TakeDamage(BulletDamage, DamageActorEvent, OwnerController, this);
-	}
+void AGun::HandleHit(bool bHasHit, FHitResult hitResult)
+{
+	if (!bHasHit) return;
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactHitVFX, hitResult.Location, hitResult.ImpactNormal.Rotation());
+	AActor* shotActor = hitResult.GetActor();
+	if (shotActor == nullptr) return;
+	FPointDamageEvent DamageActorEvent(BulletDamage, hitResult, hitResult.ImpactNormal, nullptr);;
+	shotActor->TakeDamage(BulletDamage, DamageActorEvent, GetOwnerController(), this);
+}
 
-	//DrawDebugCamera(GetWorld(), CamLocation, CamRotation, 90, 2, FColor::Blue, true);
+AController* AGun::GetOwnerController() const
+{
+	APawn* GunOwner = Cast<APawn>(GetOwner());
+	if (GunOwner == nullptr) return nullptr;
+	return GunOwner->GetController();
 }
 

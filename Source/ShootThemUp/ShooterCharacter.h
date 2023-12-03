@@ -30,10 +30,12 @@ public:
 
 	void Shoot();
 
-private:
-
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
+
+private:
+
+	
 
 	void MoveForwardCharacter(float axisValue);
 	void MoveRightCharacter(float axisValue);

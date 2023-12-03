@@ -20,9 +20,21 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UUserWidget> LoseScreenWidget;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UUserWidget> WinScreenWidget;
 
 	UPROPERTY(EditDefaultsOnly)
 	float RestartDelay = 3.0f;
 
 	FTimerHandle RestartTimerHandle;
+
+	/// <summary>
+	/// Handles the Lose condition on Game End.
+	/// </summary>
+	void HandleLoseCondition();
+
+	/// <summary>
+	/// Handles the Win condition on Game End.
+	/// </summary>
+	void HandleWinCondition();
 };

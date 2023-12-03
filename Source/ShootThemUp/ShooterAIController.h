@@ -16,15 +16,15 @@ class SHOOTTHEMUP_API AShooterAIController : public AAIController
 	
 public:
 	virtual void Tick(float DeltaSeconds) override;
+	bool IsDead() const;
+
 protected:
 	virtual void BeginPlay() override;
+
 private:
-	
 	UPROPERTY(VisibleAnywhere)
 	APawn* PlayerPawn;
 	
 	UPROPERTY(EditDefaultsOnly)
 	class UBehaviorTree* AIBehavior;
-
-	
 };

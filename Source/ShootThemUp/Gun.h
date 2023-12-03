@@ -25,6 +25,7 @@ public:
 
 	void PullTrigger();
 
+
 private:
 
 	UPROPERTY(VisibleAnywhere)
@@ -45,4 +46,11 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float BulletDamage = 10;
 
+	void SetMuzzleFlash();
+
+	bool CheckIfHitObjectInChannel(FHitResult& hitResult);
+
+	void HandleHit(bool bHasHit, FHitResult hitResult);
+
+	AController* GetOwnerController() const;
 };
