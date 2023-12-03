@@ -19,6 +19,9 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UUserWidget> LoseScreenWidget;
+
+	UPROPERTY(EditDefaultsOnly)
 	float RestartDelay = 3.0f;
 
 	FTimerHandle RestartTimerHandle;

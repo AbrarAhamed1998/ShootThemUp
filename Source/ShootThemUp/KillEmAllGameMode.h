@@ -16,4 +16,5 @@ class SHOOTTHEMUP_API AKillEmAllGameMode : public AShootThemUpGameModeBase
 	
 public:
 	virtual void OnPawnKilled(APawn* KilledPawn) override;
+	void EndGame(bool bIsPlayerWinner);
 };
