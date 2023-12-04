@@ -39,6 +39,8 @@ void AGun::PullTrigger()
 {
 	SetMuzzleFlash();
 
+	SetShootAudio();
+
 	FHitResult hitResult;
 	AController* OwnerController = nullptr;
 	bool bHasHitObjectInChannel = CheckIfHitObjectInChannel(hitResult);
@@ -54,6 +56,24 @@ void AGun::SetMuzzleFlash()
 		return;
 	}
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, MeshComponent, TEXT("MuzzleFlashSocket"));
+}
+
+void AGun::SetShootAudio()
+{
+	if (ShootAudio == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Shoot Audio not assigned!"));
+	}
+	UGameplayStatics::SpawnSoundAttached(ShootAudio, MeshComponent, TEXT("MuzzleFlashSocket"));
+}
+
+void AGun::SetImpactHitSFX(FVector Location)
+{
+	if (ImpactHitSFX == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Impact hit SFX not assigned!"));
+	}
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactHitSFX, Location);
 }
 
 bool AGun::CheckIfHitObjectInChannel(FHitResult& hitResult)
@@ -79,6 +99,7 @@ void AGun::HandleHit(bool bHasHit, FHitResult hitResult)
 {
 	if (!bHasHit) return;
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactHitVFX, hitResult.Location, hitResult.ImpactNormal.Rotation());
+	SetImpactHitSFX(hitResult.Location);
 	AActor* shotActor = hitResult.GetActor();
 	if (shotActor == nullptr) return;
 	FPointDamageEvent DamageActorEvent(BulletDamage, hitResult, hitResult.ImpactNormal, nullptr);;

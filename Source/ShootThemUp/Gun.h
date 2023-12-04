@@ -38,7 +38,13 @@ private:
 	class UParticleSystem* MuzzleFlash;
 
 	UPROPERTY(EditDefaultsOnly)
+	class USoundBase* ShootAudio;
+
+	UPROPERTY(EditDefaultsOnly)
 	class UParticleSystem* ImpactHitVFX;
+
+	UPROPERTY(EditDefaultsOnly)
+	class USoundBase* ImpactHitSFX;
 
 	UPROPERTY(EditDefaultsOnly)
 	int MaxRange = 1000;
@@ -47,6 +53,10 @@ private:
 	float BulletDamage = 10;
 
 	void SetMuzzleFlash();
+
+	void SetShootAudio();
+
+	void SetImpactHitSFX(FVector Location);
 
 	bool CheckIfHitObjectInChannel(FHitResult& hitResult);
 
