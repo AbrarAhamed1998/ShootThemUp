@@ -9,12 +9,30 @@ void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner
 {
 	Super::GameHasEnded(EndGameFocus, bIsWinner);
 	
+	RemoveHUDFromViewport();
+
+	HandleGameEndUI(bIsWinner);
+}
+
+void AShooterPlayerController::HandleGameEndUI(bool bIsWinner)
+{
 	if (bIsWinner)
 		HandleWinCondition();
 	else
 		HandleLoseCondition();
 
-	GetWorldTimerManager().SetTimer(RestartTimerHandle, this, &APlayerController::RestartLevel, RestartDelay); 
+	GetWorldTimerManager().SetTimer(RestartTimerHandle, this, &APlayerController::RestartLevel, RestartDelay);
+}
+
+void AShooterPlayerController::BeginPlayingState()
+{
+	Super::BeginPlayingState();
+	if (HUDScreenWidget == nullptr)
+		return;
+
+	HUDUIObject = CreateWidget(this, HUDScreenWidget);
+
+	HUDUIObject->AddToViewport();
 }
 
 void AShooterPlayerController::HandleLoseCondition()
@@ -35,6 +53,14 @@ void AShooterPlayerController::HandleWinCondition()
 	{
 		WinScreenObject->AddToViewport();
 	}
+}
+
+void AShooterPlayerController::RemoveHUDFromViewport()
+{
+	if (HUDUIObject == nullptr)
+		return;
+
+	HUDUIObject->RemoveFromViewport();
 }
 
 
