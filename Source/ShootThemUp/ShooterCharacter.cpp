@@ -79,6 +79,11 @@ bool AShooterCharacter::IsDead() const
 	return CurrentHealth<=0;
 }
 
+float AShooterCharacter::GetHealthPercentage() const
+{
+	return CurrentHealth/MaxHealth;
+}
+
 void AShooterCharacter::MoveForwardCharacter(float val)
 {
 	AddMovementInput(GetActorForwardVector() * val);
