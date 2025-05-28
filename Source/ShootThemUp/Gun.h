@@ -25,6 +25,9 @@ public:
 
 	void PullTrigger();
 
+	void PullTriggerStart();
+
+	void PullTriggerEnd();
 
 private:
 
@@ -52,6 +55,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float BulletDamage = 10;
 
+	UPROPERTY(EditAnywhere)
+	float FiringRate = 0.2f;
+
 	void SetMuzzleFlash();
 
 	void SetShootAudio();
@@ -63,4 +69,6 @@ private:
 	void HandleHit(bool bHasHit, FHitResult hitResult);
 
 	AController* GetOwnerController() const;
+
+	FTimerHandle FiringTimerHandle;
 };

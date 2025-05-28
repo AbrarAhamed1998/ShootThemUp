@@ -30,6 +30,10 @@ public:
 
 	void Shoot();
 
+	void StartShooting();
+
+	void EndShooting();
+
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 

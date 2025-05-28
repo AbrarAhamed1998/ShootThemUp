@@ -27,6 +27,7 @@ void AShooterPlayerController::HandleGameEndUI(bool bIsWinner)
 void AShooterPlayerController::BeginPlayingState()
 {
 	Super::BeginPlayingState();
+	// checking if the HUD UI Widget is null
 	if (HUDScreenWidget == nullptr)
 		return;
 
@@ -39,20 +40,20 @@ void AShooterPlayerController::HandleLoseCondition()
 {
 	UUserWidget* LoseScreenObject = CreateWidget(this, LoseScreenWidget);
 
-	if (LoseScreenObject != nullptr)
-	{
-		LoseScreenObject->AddToViewport();
-	}
+	if (LoseScreenObject == nullptr)
+		return;
+	
+	LoseScreenObject->AddToViewport();
 }
 
 void AShooterPlayerController::HandleWinCondition()
 {
 	UUserWidget* WinScreenObject = CreateWidget(this, WinScreenWidget);
+	
+	if (WinScreenObject == nullptr)
+		return;
 
-	if (WinScreenObject != nullptr)
-	{
-		WinScreenObject->AddToViewport();
-	}
+	WinScreenObject->AddToViewport();
 }
 
 void AShooterPlayerController::RemoveHUDFromViewport()

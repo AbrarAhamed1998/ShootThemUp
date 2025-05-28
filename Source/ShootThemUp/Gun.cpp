@@ -48,6 +48,19 @@ void AGun::PullTrigger()
 	HandleHit(bHasHitObjectInChannel, hitResult);
 }
 
+void AGun::PullTriggerStart()
+{
+	GetWorldTimerManager().SetTimer(FiringTimerHandle, this ,&AGun::PullTrigger, FiringRate, true);
+}
+
+void AGun::PullTriggerEnd()
+{
+	if (!FiringTimerHandle.IsValid())
+		return;
+	GetWorldTimerManager().ClearTimer(FiringTimerHandle);
+}
+
+
 void AGun::SetMuzzleFlash()
 {
 	if (MuzzleFlash == nullptr)

@@ -49,7 +49,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("Jump"),EInputEvent::IE_Pressed,this, &ACharacter::Jump);
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &AShooterCharacter::LookRightRate);
 	PlayerInputComponent->BindAxis(TEXT("LookUpRate"), this, &AShooterCharacter::LookUpRate);
-	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed ,this, &AShooterCharacter::Shoot);
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed ,this, &AShooterCharacter::StartShooting);
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Released, this, &AShooterCharacter::EndShooting);
 }
 
 float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -112,6 +113,16 @@ void AShooterCharacter::LookRightRate(float axisValue)
 void AShooterCharacter::Shoot()
 {
 	SpawnedGun->PullTrigger();
+}
+
+void AShooterCharacter::StartShooting()
+{
+	SpawnedGun->PullTriggerStart();
+}
+
+void AShooterCharacter::EndShooting()
+{
+	SpawnedGun->PullTriggerEnd();
 }
 
 
